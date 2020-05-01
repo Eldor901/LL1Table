@@ -195,11 +195,12 @@ public class Main {
             if (saveTable.get(i).isSetDir)
             {
                 String ch = saveTable.get(i).Terminal.replaceAll("\\s","");
+                String nonTrch = saveTable.get(i).Terminal.replaceAll("\\s","");
                 for(int j = i + 1; j < saveTable.size(); j++)
                 {
                     String ch3Tr = saveTable.get(j).Terminal.replaceAll("\\s","");
-
-                    if (ch.equals(ch3Tr))
+                    String ch3NonTr = saveTable.get(j).NonTerminal.replaceAll("\\s", "");
+                    if (ch.equals(ch3Tr) && nonTrch.equals(ch3NonTr))
                     {
                         saveTable.get(i).dirNum = j + 1;
                         break;
@@ -243,7 +244,7 @@ public class Main {
             String empty = saveTable.get(i).Terminal.replaceAll("\\s","");
             if(empty.equals("@"))
             {
-                for (int j = i; j >= saveTable.size() - i; j--)
+                for (int j = i; j >= 0; j--)
                 {
                     if (saveTable.get(j).dirNum == -1)
                     {
