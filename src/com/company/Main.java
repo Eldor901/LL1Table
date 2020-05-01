@@ -189,27 +189,29 @@ public class Main {
             NonTerminalch = value[0];
         }
 
-        //nonterminals with links dirs
+
+        //nonterminals with links dirs (nonterminals true)
         for(int i = 0; i < saveTable.size(); i++)
         {
             if (saveTable.get(i).isSetDir)
             {
+                String chNon = saveTable.get(i).NonTerminal.replaceAll("\\s","");
                 String ch = saveTable.get(i).Terminal.replaceAll("\\s","");
                 for(int j = i + 1; j < saveTable.size(); j++)
                 {
+                    String ch3TrNon = saveTable.get(j).NonTerminal.replaceAll("\\s","");
                     String ch3Tr = saveTable.get(j).Terminal.replaceAll("\\s","");
-                    if (ch.equals(ch3Tr))
-                    {
-                        saveTable.get(i).dirNum = j + 1;
-                        break;
-                    }
+                        if (ch.equals(ch3Tr)) {
+                                saveTable.get(i).dirNum = j + 1;
+                                break;
+                        }
                 }
             }
         }
 
 
 
-        // nonTerminal without link dirs
+        // nonTerminal without link dirs (nonterminals false)
         for(int i = 0; i < saveTable.size(); i++)
         {
             if (!saveTable.get(i).isSetDir)
@@ -225,7 +227,7 @@ public class Main {
                             String nonTermj = saveTable.get(j).NonTerminal.replaceAll("\\s","");
                             String temj = saveTable.get(j).Terminal.replaceAll("\\s","");
 
-                            if(nonTermi.equals(nonTermj) && saveTable.get(j).isSetDir)
+                            if(nonTermi.equals(nonTermj))
                             {
                                 saveTable.get(i).dirNum = j+1;
                                 break;
@@ -244,12 +246,27 @@ public class Main {
             {
                 for (int j = i; j >= 0 ; j--)
                 {
+                    /*
                     if (saveTable.get(j).dirNum == -1)
                     {
                         saveTable.get(i).Terminal = saveTable.get(j).Terminal;
                         saveTable.get(j).dirNum = i+1;
                         break;
                     }
+                     */
+                    if (saveTable.get(j).isSetDir)
+                    {
+                        if (j != 0)
+                        {
+                           if (!saveTable.get(j-1).isSetDir)
+                           {
+                               saveTable.get(i).Terminal = saveTable.get(j).Terminal;
+                               saveTable.get(j).dirNum = i+1;
+                               break;
+                           }
+                        }
+                    }
+
                 }
             }
         }
@@ -270,7 +287,7 @@ public class Main {
                 }
             }
 
-            if(saveTable.get(i).NonTerminal.replaceAll("\\s","").equals("#"))
+            if(saveTable.get(i).Terminal.replaceAll("\\s","").equals("#"))
             {
                 saveTable.get(i).EndState = 1;
             }
