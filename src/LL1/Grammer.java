@@ -10,4 +10,5 @@ public class Grammer {
     public Integer stack = -1;
     public Integer Error = 1;
     public Integer EndState = -1;
+    public Integer isEndInLine = 0;
 }
